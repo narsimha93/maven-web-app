@@ -48,4 +48,5 @@ steps:
     deployToSlotOrASE: true
     resourceGroupName: 'Aks_Rg'
     slotName: 'production'
-    package: '$(System.DefaultWorkingDirectory)/**/*.war'  # Corrected path to WAR file
+    package: '$(System.DefaultWorkingDirectory)/**/*.zip'  # Corrected path to WAR file
+
