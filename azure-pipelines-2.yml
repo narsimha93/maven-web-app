@@ -33,17 +33,20 @@ steps:
 - task: CopyFiles@2
   inputs:
     contents: '**/*.war'
-    targetFolder: '$(/home/vsts/work/1/a/)'
+    targetFolder: '$(System.DefaultWorkingDirectory)'
 
 - task: PublishBuildArtifacts@1
   inputs:
     artifactName: 'war'
-    pathToPublish: '$(/home/vsts/work/1/a/)'
-
+    pathToPublish: '$(System.DefaultWorkingDirectory)'
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
-    azureSubscription: 'Azure subscription 1(420f7bc7-9408-4bd5-baec-9f54fe59aa05)'
-    appType: 'webApp'
-    WebAppName: 'java-web-app1'
-    packageForLinux: '$(/home/vsts/work/1/a/)**/*.zip'
+    azureSubscription: 'Az-pipeline'
+    appType: 'webAppLinux'
+    WebAppName: 'Az-Java-Pipeline'
+    deployToSlotOrASE: true
+    ResourceGroupName: 'Aks_Rg'
+    SlotName: 'production'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    RuntimeStack: 'JAVA|11-java11'
