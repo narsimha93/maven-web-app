@@ -17,6 +17,7 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+
 - task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
@@ -28,6 +29,17 @@ steps:
     mavenAuthenticateFeed: false
     effectivePomSkip: false
     sonarQubeRunAnalysis: false  # Adjusted based on your requirement
+
+- task: CopyFiles@2
+  inputs:
+    contents: '**/*.war'
+    targetFolder: '$(build.artifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    artifactName: 'war'
+    pathToPublish: '$(build.artifactStagingDirectory)'
+
 - task: AzureWebApp@1
   inputs:
     azureSubscription: 'Azure subscription 1(1)(420f7bc7-9408-4bd5-baec-9f54fe59aa05)'
@@ -36,4 +48,4 @@ steps:
     deployToSlotOrASE: true
     resourceGroupName: 'Aks_Rg'
     slotName: 'production'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    package: '$(System.DefaultWorkingDirectory)/**/*.war'  # Corrected path to WAR file
